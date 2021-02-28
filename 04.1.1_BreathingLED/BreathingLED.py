@@ -10,14 +10,17 @@ import time
 
 LedPin = 12     # define the LedPin
 
+
 def setup():
     global p
     GPIO.setmode(GPIO.BOARD)       # use PHYSICAL GPIO Numbering
     GPIO.setup(LedPin, GPIO.OUT)   # set LedPin to OUTPUT mode
-    GPIO.output(LedPin, GPIO.LOW)  # make ledPin output LOW level to turn off LED 
+    # make ledPin output LOW level to turn off LED
+    GPIO.output(LedPin, GPIO.LOW)
 
-    p = GPIO.PWM(LedPin, 500)      # set PWM Frequence to 500Hz
+    p = GPIO.PWM(LedPin, 1500)      # set PWM Frequence to 500Hz
     p.start(0)                     # set initial Duty Cycle to 0
+
 
 def loop():
     while True:
@@ -25,17 +28,19 @@ def loop():
             p.ChangeDutyCycle(dc)     # set dc value as the duty cycle
             time.sleep(0.01)
         time.sleep(1)
-        for dc in range(100, -1, -1): # make the led darker
+        for dc in range(100, -1, -1):  # make the led darker
             p.ChangeDutyCycle(dc)     # set dc value as the duty cycle
             time.sleep(0.01)
         time.sleep(1)
 
+
 def destroy():
-    p.stop() # stop PWM
-    GPIO.cleanup() # Release all GPIO
+    p.stop()  # stop PWM
+    GPIO.cleanup()  # Release all GPIO
+
 
 if __name__ == '__main__':     # Program entrance
-    print ('Program is starting ... ')
+    print('Program is starting ... ')
     setup()
     try:
         loop()
